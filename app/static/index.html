@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>INFYNEX QUANT AI — AI Learning</title>
+<style>
+  :root {
+    --bg:#0f1220; --panel:#181c2e; --panel2:#1e2338; --line:#2a3150;
+    --text:#e6e9f5; --muted:#8b93b0; --pos:#3ddc97; --neg:#ff6b81;
+    --neu:#8b93b0; --accent:#7c8cff; --warn:#ffcc66;
+  }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; }
+  header { padding:20px 28px; border-bottom:1px solid var(--line);
+    background:linear-gradient(180deg,#151a2c,#0f1220); }
+  header h1 { margin:0; font-size:20px; letter-spacing:.5px; }
+  header p { margin:4px 0 0; color:var(--muted); font-size:13px; }
+  main { padding:20px 28px 60px; max-width:1400px; margin:0 auto; }
+  .cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:14px; }
+  .card { background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:16px; }
+  .card .label { color:var(--muted); font-size:12px; text-transform:uppercase; letter-spacing:.6px; }
+  .card .value { font-size:26px; font-weight:700; margin-top:6px; }
+  .pos { color:var(--pos); } .neg { color:var(--neg); } .neu { color:var(--neu); } .accent { color:var(--accent); }
+  section { background:var(--panel); border:1px solid var(--line); border-radius:12px;
+    padding:16px 18px; margin-top:18px; }
+  section h2 { margin:0 0 12px; font-size:15px; }
+  .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:18px; }
+  table { width:100%; border-collapse:collapse; font-size:13px; }
+  th, td { text-align:left; padding:7px 8px; border-bottom:1px solid var(--line); }
+  th { color:var(--muted); font-weight:600; font-size:12px; text-transform:uppercase; letter-spacing:.4px; }
+  tr:hover td { background:var(--panel2); }
+  .pill { display:inline-block; padding:2px 9px; border-radius:999px; font-size:12px; border:1px solid var(--line); }
+  .pill.pos { color:var(--pos); border-color:var(--pos); }
+  .pill.neg { color:var(--neg); border-color:var(--neg); }
+  .pill.warn { color:var(--warn); border-color:var(--warn); }
+  .pill.neu { color:var(--neu); border-color:var(--neu); }
+  canvas { width:100%; height:160px; display:block; }
+  .muted { color:var(--muted); } .small { font-size:12px; }
+  .bar { height:8px; border-radius:4px; background:var(--panel2); overflow:hidden; }
+  .bar > span { display:block; height:100%; background:var(--accent); }
+  .modal { position:fixed; inset:0; background:rgba(0,0,0,.6); display:none;
+    align-items:flex-start; justify-content:center; padding:40px 20px; overflow:auto; }
+  .modal.open { display:flex; }
+  .modal .box { background:var(--panel); border:1px solid var(--line); border-radius:14px;
+    padding:20px; width:720px; max-width:100%; }
+  code, pre { background:#0b0e1a; border:1px solid var(--line); border-radius:8px; padding:2px 6px; }
+  pre { padding:12px; overflow:auto; font-size:12px; }
+  .kv { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:6px 18px; font-size:13px; }
+  .kv div span { color:var(--muted); }
+</style>
+</head>
+<body>
+<header>
+  <h1>INFYNEX QUANT AI</h1>
+  <p>AI Learning — reward, penalty &amp; continuous improvement dashboard</p>
+</header>
+<main>
+  <div class="cards" id="cards"></div>
+
+  <section>
+    <h2>Net expectancy</h2>
+    <div class="grid2">
+      <div>
+        <table id="expectancy"></table>
+      </div>
+      <div>
+        <table id="errorCounts"></table>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Reward history over time</h2>
+    <canvas id="chart" width="1200" height="160"></canvas>
+  </section>
+
+  <div class="grid2">
+    <section>
+      <h2>Average reward by symbol</h2>
+      <table id="bySymbol"></table>
+    </section>
+    <section>
+      <h2>Average reward by market regime</h2>
+      <table id="byRegime"></table>
+    </section>
+  </div>
+
+  <section>
+    <h2>Model versions &amp; promotions</h2>
+    <div class="grid2">
+      <table id="models"></table>
+      <table id="promotions"></table>
+    </div>
+  </section>
+
+  <section>
+    <h2>Drift warnings &amp; training datasets</h2>
+    <div id="drift" class="small muted"></div>
+    <table id="datasets"></table>
+  </section>
+
+  <section>
+    <h2>Completed trades</h2>
+    <table id="trades"></table>
+  </section>
+</main>
+
+<div class="modal" id="modal">
+  <div class="box">
+    <h2 id="mTitle" style="margin-top:0">Trade reward breakdown</h2>
+    <div id="mBody"></div>
+    <div style="text-align:right;margin-top:16px">
+      <button onclick="closeModal()">Close</button>
+    </div>
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
